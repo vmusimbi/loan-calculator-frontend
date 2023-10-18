@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import $ from 'jquery';
 import 'datatables.net';
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 
 function App() {
@@ -113,13 +114,20 @@ function App() {
   };
 
   
-
   const handleGeneratePDF = () => {
       const doc = new jsPDF();
-      doc.autoTable({
+
+      const tableOptions = {
         html: "#instalments",
-        startY: 15,
-      });
+     startY: 15,
+     theme: 'grid',
+     headStyles: {
+       fillColor: [0, 0, 255],
+       textColor: 255,
+     }
+      };
+      doc.autoTable(tableOptions);
+      
       doc.save("loan_instalments.pdf");
 
     }
