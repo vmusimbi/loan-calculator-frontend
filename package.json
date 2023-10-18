@@ -1,11 +1,16 @@
 {
   "name": "loan-calculator",
   "version": "0.1.0",
-  "private": true,
+  "private": "false",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "datatables.net": "^1.13.6",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.7.0",
+    "nodemailer": "^6.9.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
