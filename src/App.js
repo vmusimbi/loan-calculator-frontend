@@ -3,6 +3,7 @@ import $ from 'jquery';
 import 'datatables.net';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import './index';
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   const [frequency, setFrequency] = useState('annually');
   const [period, setPeriod] = useState('');
   const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [interestType, setInterestType] = useState('flat_rate');
   const [selectedBank, setSelectedBank] = useState('bankA');
   const [instalments, setInstalments] = useState([]);
@@ -30,21 +32,27 @@ function App() {
 
     for (let i = 0; i < period; i++) {
       let interestAmount = 0;
+      let end_date = new Date(start_date);
 
       if (frequency === "annually") {
         interestAmount = principal * interest_rate;
+        end_date.setFullYear(end_date.getFullYear()+1);
       } else if (frequency === "quarterly") {
         interestAmount = (principal * interest_rate) / 4;
+        end_date.setMonth(end_date.getMonth()+3);
       } else if (frequency === "monthly") {
         interestAmount = (principal * interest_rate) / 12;
+       end_date.setMonth(end_date.getMonth() + 1);
       } else if (frequency === "every6months") {
         interestAmount = (principal * interest_rate) / 2;
+        end_date.setMonth(end_date.getMonth() + 6);
       }
-
+ 
       let totalAmount = principal + interestAmount;
-
+ 
       instalments.push({
         "Payment Date": formatDate(start_date),
+        "End Date":formatDate(end_date),
         "Instalment Amount": totalAmount.toFixed(2),
       });
 
@@ -111,6 +119,7 @@ function App() {
     setTotalCost(totalCostValue);
     setTakeHomeAmount(takeHomeAmountValue);
     setInstalments(instalmentsData);
+    setEndDate(endDate);
   };
 
   
@@ -134,73 +143,99 @@ function App() {
   
   return (
     <div>
-      <h1>Loan Calculator</h1>
-      <form id="loan-form">
-        <label htmlFor="bank">Select a Bank:</label>
-        <select id="bank" name="bank" value={selectedBank} onChange={(e) => setSelectedBank(e.target.value)}>
-          <option value="bankA">Bank A</option>
-          <option value="bankB">Bank B</option>
-        </select><br />
+ <div className="header">
+   <img src="/logo.jpg" alt="pycs" style={{ width: '110px', height: '110px',position: 'absolute', top: '5px',left: '10px'}} />
+   <h1>Loan Calculator</h1>
+ </div>
+    
+     <h1><i></i>Welcome to pycs calculator<i></i></h1>
+   
+     <div className="nav-right">
+       <p> <b>New User?</b></p>
+   <button className="signup-button">Sign Up</button>
+   <p> <b>Already registered ?</b></p>
+   <button className="signin-button">Sign In</button>
+ </div>
 
-        <label htmlFor="amount">Amount to Borrow:</label>
-        <input type="number" id="amount" required value={amount} onChange={(e) => setAmount(e.target.value)} /><br />
-
-        <label htmlFor="frequency">Payment Frequency:</label>
-        <select id="frequency" value={frequency} onChange={(e) => setFrequency(e.target.value)}>
-          <option value="annually">Annually</option>
-          <option value="quarterly">Quarterly</option>
-          <option value="monthly">Monthly</option>
-          <option value="every6months">Every 6 Months</option>
-        </select><br />
-
-        <label htmlFor="period">Loan Period (in years):</label>
-        <input type="number" id="period" required value={period} onChange={(e) => setPeriod(e.target.value)} /><br />
-
-        <label htmlFor="start-date">Start Date:</label>
-        <input type="date" id="start_date" required value={startDate} onChange={(e) => setStartDate(e.target.value)} /><br />
-
-        <label htmlFor="interest_type">Interest Type:</label>
-        <select id="interest_type" value={interestType} onChange={(e) => setInterestType(e.target.value)}>
-          <option value="flat_rate">Flat Rate</option>
-          <option value="reducing_balance">Reducing Balance</option>
-        </select><br />
-
-        <button type="button" id="calculate" onClick={handleCalculate}>Calculate</button>
-        <button type="button" id="generate-pdf" style={{ display: (instalments.length > 0) ? 'block' : 'none' }} onClick={handleGeneratePDF}>Generate PDF</button>
-      </form>
-
-      <div id="results" style={{ display: (instalments.length > 0) ? 'block' : 'none' }}>
-        <h2>Loan Details</h2>
-        <table id="instalments" className="display" style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              <th>Payment Date</th>
-              <th>Instalment Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {instalments.map((instalment, index) => (
-              <tr key={index}>
-                <td>{instalment["Payment Date"]}</td>
-                <td>{instalment["Instalment Amount"]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <h3>Charges:</h3>
-        <ul>
-          <li>Processing Fees: {processingFees}</li>
-          <li>Excise Duty: {exciseDuty}</li>
-          <li>Legal Fees: KES 10,000</li>
-        </ul>
-        <h3>Total Cost: {totalCost}</h3>
-        <h3>Take Home Amount: {takeHomeAmount}</h3>
+     <form id="loan-form">
+     <div className="form-group">
+       <label htmlFor="bank">Select a Bank  </label>
+       <select id="bank" name="bank" value={selectedBank} onChange={(e) => setSelectedBank(e.target.value)}>
+         <option value="bankA">Bank A</option>
+         <option value="bankB">Bank B</option>
+       </select><br />
+</div>
+<div className="form-group">
+       <label htmlFor="amount">Amount to Borrow  </label>
+       <input type="number" id="amount" required value={amount} onChange={(e) => setAmount(e.target.value)} /><br />
+</div>
+<div className="form-group">
+       <label htmlFor="frequency">Payment Frequency  </label>
+       <select id="frequency" value={frequency} onChange={(e) => setFrequency(e.target.value)}>
+         <option value="annually">Annually</option>
+         <option value="quarterly">Quarterly</option>
+         <option value="monthly">Monthly</option>
+         <option value="every6months">Every 6 Months</option>
+       </select><br />
+</div>
+       <div className="form-group">
+       <label htmlFor="period">Loan Period (in years)  </label>
+       <input type="number" id="period" required value={period} onChange={(e) => setPeriod(e.target.value)} /><br />
+</div>
+<div className="form-group">
+       <label htmlFor="start-date">Start Date  </label>
+       <input type="date" id="start_date" required value={startDate} onChange={(e) => setStartDate(e.target.value)} /><br />
+</div>
+<div className="form-group">
+       <label htmlFor="interest_type">Interest Type  </label>
+       <select id="interest_type" value={interestType} onChange={(e) => setInterestType(e.target.value)}>
+         <option value="flat_rate">Flat Rate</option>
+         <option value="reducing_balance">Reducing Balance</option>
+       </select><br />
+</div>
+<div className="form-group">
+       <button type="button" id="calculate" onClick={handleCalculate}>Calculate</button>
+       <button type="button" id="generate-pdf" style={{ display: (instalments.length > 0) ? 'block' : 'none' }} onClick={handleGeneratePDF}>Generate PDF</button>
       </div>
-    </div>
-  );
+      
+     </form>
 
 
-}
+     <div id="results" style={{ display: (instalments.length > 0) ? 'block' : 'none' }}>
+       <h2>Loan Details</h2>
+       <table id="instalments" className="display" style={{ width: '100%' }}>
+         <thead>
+           <tr>
+             <th>Payment Start Date</th>
+             <th> Payment End Date</th>
+             <th>Instalment Amount</th>
+           </tr>
+         </thead>
+         <tbody>
+           {instalments.map((instalment, index) => (
+             <tr key={index}>
+               <td>{instalment["Payment Date"]}</td>
+               <td>{instalment["End Date"]}</td>
+               <td>{instalment["Instalment Amount"]}</td>
+             </tr>
+           ))}
+         </tbody>
+       </table>
+       <h3>Charges:</h3>
+       <ul>
+         <li>Processing Fees: {processingFees}</li>
+         <li>Excise Duty: {exciseDuty}</li>
+         <li>Legal Fees: KES 10,000</li>
+       </ul>
+       <h3>Total Cost: {totalCost}</h3>
+       <h3>Take Home Amount: {takeHomeAmount}</h3>
+      
+     <h4>Last Date to Finish Payments : {endDate}</h4>
+     </div>
+   </div>
+ );
+           }
+
 
 export default App;
 
