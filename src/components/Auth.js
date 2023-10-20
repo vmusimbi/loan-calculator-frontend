@@ -6,10 +6,15 @@ function Auth () {
    let [authMode, setAuthMode] = useState("signin")
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
+   const [passwordError, setPasswordError] = useState("");
 
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        if (password.length < 8) {
+           setPasswordError("Password must be at least 8 characters long");
+           return;
+         }
         // Call API endpoint to authenticate user
         fetch('http://192.168.1.106:3001/login', {
             method: 'POST',
@@ -37,6 +42,10 @@ function Auth () {
     };
        const handleSubmit = event => {
            event.preventDefault();
+           if (password.length < 8) {
+               setPasswordError("Password must be at least 8 characters long");
+               return;
+             }
            var data = {
                'email': email,
                'password': password,
@@ -108,8 +117,12 @@ function Auth () {
                                id={'password'}
                                value={password}
                                required
-                               onChange={(e) => setPassword(e.target.value)}
+                               onChange={(e) => {
+                                   setPassword(e.target.value);
+                                   setPasswordError(""); // Clear password error when the input changes
+                                 }}                   
                            />
+                           {passwordError && <p className="text-danger">{passwordError}</p>}
                        </div>
                        <div className="d-grid gap-2 mt-3">
                            <button type="submit" className="btn btn-primary">
@@ -158,8 +171,12 @@ function Auth () {
                            id="password"
                            value={password}
                            required
-                           onChange={(e) => setPassword(e.target.value)}
+                           onChange={(e) => {
+                               setPassword(e.target.value);
+                               setPasswordError(""); // Clear password error when the input changes
+                             }}                   
                        />
+                       {passwordError && <p className="text-danger">{passwordError}</p>}
                    </div>
                    <div className="d-grid gap-2 mt-3">
                        <button type="submit" className="btn btn-primary">

@@ -4,6 +4,9 @@ import 'datatables.net';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import '../index';
+import EmailForm from './EmailForm';
+import emailjs from 'emailjs-com';
+
 
 
 function App() {
@@ -152,7 +155,7 @@ function App() {
    setEndDate(endDate);
  };
 
-
+ 
  const handleGeneratePDF = () => {
    const doc = new jsPDF();
   
@@ -168,9 +171,10 @@ function App() {
    doc.autoTable(tableOptions);
   
   
-  
    doc.save("loan_instalments.pdf");
  }
+
+ 
 
 
 
@@ -179,22 +183,13 @@ function App() {
 
 
  <div className="header">
-   <img src="/logo.jpeg" alt="pycs" style={{ width: '110px', height: '110px',position: 'absolute', top: '5px',left: '10px'}} />
+   <img src="/logo.jpg" alt="pycs" style={{ width: '80px', height: '80px',position: 'absolute', top: '5px',left: '10px'}} />
    <h1>Loan Calculator</h1>
  </div>
     
      <h1><i></i>Welcome to pycs calculator<i></i></h1>
    
-     <div className="nav-right">
-       <p> <b>New User?</b></p>
-   <button className="signup-button">Sign Up</button>
-   <p> <b>Already registered ?</b></p>
-   <button className="signin-button">Sign In</button>
- </div>
-
-
-
-
+    
      <form id="loan-form">
      <div className="form-group">
        <label htmlFor="bank">Select a Bank  </label>
@@ -267,9 +262,7 @@ function App() {
        </ul>
        <h3>Total Cost: {totalCost}</h3>
        <h3>Take Home Amount: {takeHomeAmount}</h3>
-      
-      
-     <h4>Last Date to Finish Payments : {endDate}</h4>
+  
      </div>
    </div>
  );
@@ -277,7 +270,6 @@ function App() {
 
 
 export default App;
-
 
 
 
