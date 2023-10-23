@@ -16,7 +16,7 @@ function Auth () {
            return;
          }
         // Call API endpoint to authenticate user
-        fetch('http://192.168.1.106:3001/login', {
+        fetch('http://localhost:3001/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ function Auth () {
            }
 
 
-           fetch('http://192.168.1.106:3001/register', {
+           fetch('http://localhost:3001/register', {
                method: 'POST',
                headers: {
                    Accept: 'application/form-data',

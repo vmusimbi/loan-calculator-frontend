@@ -191,48 +191,77 @@ function App() {
    
     
      <form id="loan-form">
+     
+      
      <div className="form-group">
-       <label htmlFor="bank">Select a Bank  </label>
+     
+      <label htmlFor="bank">Select a Bank  </label> 
        <select id="bank" name="bank" value={selectedBank} onChange={(e) => setSelectedBank(e.target.value)}>
          <option value="bankA">Bank A</option>
          <option value="bankB">Bank B</option>
        </select><br />
+       
 </div>
+
+
+
 <div className="form-group">
+
        <label htmlFor="amount">Amount to Borrow  </label>
        <input type="number" id="amount" required value={amount} onChange={(e) => setAmount(e.target.value)} /><br />
+       
 </div>
+
+
+
 <div className="form-group">
-       <label htmlFor="frequency">Payment Frequency  </label>
+
+      <label htmlFor="frequency">Payment Frequency  </label> 
+     
        <select id="frequency" value={frequency} onChange={(e) => setFrequency(e.target.value)}>
          <option value="annually">Annually</option>
          <option value="quarterly">Quarterly</option>
          <option value="monthly">Monthly</option>
          <option value="every6months">Every 6 Months</option>
        </select><br />
+       
+       
 </div>
+
+
+
        <div className="form-group">
-       <label htmlFor="period">Loan Period (in years)  </label>
+       <label htmlFor="period">Loan Period (in years)  </label> 
        <input type="number" id="period" required value={period} onChange={(e) => setPeriod(e.target.value)} /><br />
+
 </div>
+
+
+
 <div className="form-group">
-       <label htmlFor="start-date">Start Date  </label>
-       <input type="date" id="start_date" required value={startDate} onChange={(e) => setStartDate(e.target.value)} /><br />
+     <label htmlFor="start-date">Start Date  </label>
+      <input type="date" id="start_date" required value={startDate} onChange={(e) => setStartDate(e.target.value)} /><br />
+
 </div>
+
+
 <div className="form-group">
-       <label htmlFor="interest_type">Interest Type  </label>
+     <label htmlFor="interest_type">Interest Type  </label> 
+      
        <select id="interest_type" value={interestType} onChange={(e) => setInterestType(e.target.value)}>
          <option value="flat_rate">Flat Rate</option>
          <option value="reducing_balance">Reducing Balance</option>
        </select><br />
+       
 </div>
+
 <div className="form-group">
        <button type="button" id="calculate" onClick={handleCalculate}>Calculate</button>
        <button type="button" id="generate-pdf" style={{ display: (instalments.length > 0) ? 'block' : 'none' }} onClick={handleGeneratePDF}>Download PDF</button>
       </div>
       
      </form>
-
+     
 
      <div id="results" style={{ display: (instalments.length > 0) ? 'block' : 'none' }}>
        <h2>Loan Details</h2>
